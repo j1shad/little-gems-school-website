@@ -12,7 +12,8 @@ export interface SocialLink {
 }
 
 // Supabase types (Feature 1.2)
-export type { Database } from './supabase'
+import type { Database } from './supabase'
+export type { Database }
 
 // Type helper for extracting table types
 export type Tables<T extends keyof Database['public']['Tables']> =
