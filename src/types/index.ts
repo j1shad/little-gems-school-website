@@ -11,4 +11,14 @@ export interface SocialLink {
   icon?: string
 }
 
+// Supabase types (Feature 1.2)
+export type { Database } from './supabase'
+
+// Type helper for extracting table types
+export type Tables<T extends keyof Database['public']['Tables']> =
+  Database['public']['Tables'][T]['Row']
+
+export type Enums<T extends keyof Database['public']['Enums']> =
+  Database['public']['Enums'][T]
+
 // More types will be added in future features
