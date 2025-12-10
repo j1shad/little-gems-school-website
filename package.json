@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/j1shad/little-gems-school-website#readme",
   "dependencies": {
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.87.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
