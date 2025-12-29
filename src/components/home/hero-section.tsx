@@ -99,7 +99,7 @@ export function HeroSection() {
           >
             <motion.div variants={buttonStagger} custom={0} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
               <Button asChild size="lg" className="text-base md:text-lg px-8 py-6 shadow-2xl transition-transform">
-                <Link href="/admissions/process">Apply Now</Link>
+                <Link href="/apply">Apply Now</Link>
               </Button>
             </motion.div>
             <motion.div variants={buttonStagger} custom={1} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>

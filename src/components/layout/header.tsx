@@ -133,7 +133,7 @@ export function Header() {
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
               <Button asChild size="lg" className="ml-4">
-                <Link href="/admissions/process">Apply Now</Link>
+                <Link href="/apply">Apply Now</Link>
               </Button>
             </motion.div>
           </nav>
@@ -190,7 +190,7 @@ export function Header() {
                 ))}
                 <Button asChild size="lg" className="w-full mt-4">
                   <Link
-                    href="/admissions/process"
+                    href="/apply"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     Apply Now
