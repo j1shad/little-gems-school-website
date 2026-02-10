@@ -8,6 +8,8 @@ import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 import { fadeInUp, staggerContainer } from "@/lib/animations/variants"
 import { SITE_CONFIG } from "@/lib/constants/site-config"
 
+import { FloatingGem } from "@/components/home/3d/floating-gem"
+
 const stats = [
   {
     label: "Years of Excellence",
@@ -66,8 +68,10 @@ export function StatsSection() {
   return (
     <section
       ref={ref}
-      className="py-16 md:py-24 bg-gradient-to-br from-primary-50 via-white to-secondary-50"
+      className="relative overflow-hidden py-16 md:py-24 bg-gradient-to-br from-primary-50 via-white to-secondary-50"
     >
+      <FloatingGem />
+
       <div className="container mx-auto px-4">
         {/* Section Heading */}
         <motion.div

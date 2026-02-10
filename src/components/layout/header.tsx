@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import Image from "next/image"
 import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
@@ -28,6 +29,7 @@ import { SITE_CONFIG } from "@/lib/constants/site-config"
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const pathname = usePathname()
 
   // Handle scroll effect for header
   useEffect(() => {
@@ -44,7 +46,7 @@ export function Header() {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         isScrolled
-          ? "bg-background/80 backdrop-blur-lg shadow-md border-t-2 border-primary/30"
+          ? "bg-white/90 backdrop-blur-md shadow-sm border-b border-neutral-200/50"
           : "bg-transparent"
       )}
     >
@@ -89,39 +91,49 @@ export function Header() {
                     transition={{ delay: index * 0.1, duration: 0.3 }}
                   >
                     <NavigationMenuItem>
-                    {item.items ? (
-                      <>
-                        <NavigationMenuTrigger className="text-neutral-700 hover:text-primary font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full">
+                      {(item as any).items ? (
+                        <>
+                          <NavigationMenuTrigger
+                            className={cn(
+                              "text-neutral-700 hover:text-primary font-medium relative",
+                              pathname.startsWith((item as any).href) && "text-primary"
+                            )}
+                          >
+                            {item.title}
+                          </NavigationMenuTrigger>
+                          <NavigationMenuContent>
+                            <ul className="grid w-[200px] gap-1 p-2 bg-white text-neutral-900 border border-neutral-100 rounded-md shadow-xl">
+                              {(item as any).items.map((subItem: any) => (
+                                <li key={subItem.href}>
+                                  <NavigationMenuLink asChild>
+                                    <Link
+                                      href={subItem.href}
+                                      className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-neutral-50 hover:text-primary focus:bg-neutral-50 focus:text-primary"
+                                    >
+                                      <div className="text-sm font-semibold">
+                                        {subItem.title}
+                                      </div>
+                                    </Link>
+                                  </NavigationMenuLink>
+                                </li>
+                              ))}
+                            </ul>
+                          </NavigationMenuContent>
+                        </>
+                      ) : (
+                        <Link
+                          href={(item as any).href || "#"}
+                          className={cn(
+                            "text-neutral-700 hover:text-primary font-medium transition-colors px-4 py-2 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full",
+                            pathname === (item as any).href
+                              ? "text-primary after:w-full"
+                              : "after:w-0"
+                          )}
+                        >
                           {item.title}
-                        </NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                          <ul className="grid w-[200px] gap-1 p-2">
-                            {item.items.map((subItem) => (
-                              <li key={subItem.href}>
-                                <NavigationMenuLink asChild>
-                                  <Link
-                                    href={subItem.href}
-                                    className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                                  >
-                                    <div className="text-sm font-medium">
-                                      {subItem.title}
-                                    </div>
-                                  </Link>
-                                </NavigationMenuLink>
-                              </li>
-                            ))}
-                          </ul>
-                        </NavigationMenuContent>
-                      </>
-                    ) : (
-                      <Link
-                        href={item.href || "#"}
-                        className="text-neutral-700 hover:text-primary font-medium transition-colors px-4 py-2 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-primary after:transition-all hover:after:w-full"
-                      >
-                        {item.title}
-                      </Link>
-                    )}
-                  </NavigationMenuItem>
+                        </Link>
+                      )}
+                    </NavigationMenuItem>
                   </motion.div>
                 ))}
               </NavigationMenuList>
@@ -129,8 +141,8 @@ export function Header() {
 
             {/* CTA Button */}
             <motion.div
-              animate={{ scale: [1, 1.02, 1] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               <Button asChild size="lg" className="ml-4">
                 <Link href="/apply">Apply Now</Link>
@@ -158,13 +170,13 @@ export function Header() {
               <nav className="flex flex-col gap-4 mt-8">
                 {SITE_CONFIG.navigation.map((item) => (
                   <div key={item.title} className="border-b-2 border-primary/20 pb-4">
-                    {item.items ? (
+                    {(item as any).items ? (
                       <div>
                         <h3 className="font-heading font-semibold text-lg text-neutral-900 mb-3">
                           {item.title}
                         </h3>
                         <ul className="space-y-2 pl-4">
-                          {item.items.map((subItem) => (
+                          {(item as any).items.map((subItem: any) => (
                             <li key={subItem.href}>
                               <Link
                                 href={subItem.href}
@@ -179,7 +191,7 @@ export function Header() {
                       </div>
                     ) : (
                       <Link
-                        href={item.href || "#"}
+                        href={(item as any).href || "#"}
                         className="font-heading font-semibold text-lg text-neutral-900 hover:text-primary transition-colors block"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >

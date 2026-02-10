@@ -33,12 +33,12 @@ export function Footer() {
                 <span className="font-heading text-xl font-bold text-white leading-tight">
                   Little Gems
                 </span>
-                <span className="font-heading text-xs text-neutral-400">
+                <span className="font-heading text-xs text-neutral-300">
                   School
                 </span>
               </div>
             </Link>
-            <p className="text-sm text-neutral-400 mb-4">
+            <p className="text-sm text-neutral-300 mb-4">
               {SITE_CONFIG.description}
             </p>
             <div className="flex gap-3">

@@ -101,7 +101,7 @@ export interface Database {
         }
         Insert: {
           id?: string
-          reference_number: string
+          reference_number?: string
           parent_id: string
           parent_full_name: string
           parent_email: string
@@ -248,7 +248,7 @@ export interface Database {
       }
     }
     Views: {
-      [_ in never]: never
+
     }
     Functions: {
       generate_application_reference: {
@@ -257,7 +257,7 @@ export interface Database {
       }
     }
     Enums: {
-      [_ in never]: never
+
     }
   }
 }

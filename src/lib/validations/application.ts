@@ -56,25 +56,11 @@ export const parentInfoSchema = z.object({
     .max(50, 'City must not exceed 50 characters'),
 
   parent_region: z.enum(GHANA_REGIONS as unknown as [string, ...string[]], {
-    errorMap: () => ({ message: 'Please select a valid region' }),
+    message: 'Please select a valid region',
   }),
 
   parent_occupation: z.string().max(100).optional().or(z.literal('')),
   parent_employer: z.string().max(100).optional().or(z.literal('')),
-
-  // Second parent (optional)
-  has_second_parent: z.boolean().default(false),
-  parent2_full_name: z.string().max(100).optional().or(z.literal('')),
-  parent2_email: z.string().email().optional().or(z.literal('')),
-  parent2_phone: z
-    .string()
-    .regex(ghanaPhoneRegex)
-    .optional()
-    .or(z.literal('')),
-  parent2_relationship: z
-    .enum(['mother', 'father', 'guardian', 'other'])
-    .optional(),
-  parent2_occupation: z.string().max(100).optional().or(z.literal('')),
 })
 
 // Step 4: Medical Information Schema
@@ -132,11 +118,11 @@ export const childSchema = z.object({
     }, 'Child must be between 0 and 18 years old'),
 
   gender: z.enum(['male', 'female', 'other', 'prefer_not_to_say'], {
-    errorMap: () => ({ message: 'Please select a gender' }),
+    message: 'Please select a gender',
   }),
 
   grade_level: z.enum(gradeLevels, {
-    errorMap: () => ({ message: 'Please select a grade level' }),
+    message: 'Please select a grade level',
   }),
 
   academic_year: z
@@ -147,29 +133,21 @@ export const childSchema = z.object({
 
   medical_info: medicalInfoSchema.optional(),
   education_info: educationInfoSchema.optional(),
-}).refine(
-  (data) => {
-    // Validate age against grade level
-    const age = Math.floor(
-      (Date.now() - data.date_of_birth.getTime()) / (365.25 * 24 * 60 * 60 * 1000)
-    )
-    const gradeInfo = GRADE_LEVELS[data.grade_level as GradeLevel]
-    if (age > gradeInfo.maxAge) {
-      return false
-    }
-    return true
-  },
-  (data) => {
-    const age = Math.floor(
-      (Date.now() - data.date_of_birth.getTime()) / (365.25 * 24 * 60 * 60 * 1000)
-    )
-    const gradeInfo = GRADE_LEVELS[data.grade_level as GradeLevel]
-    return {
+}).superRefine((data, ctx) => {
+  // Validate age against grade level
+  const age = Math.floor(
+    (Date.now() - data.date_of_birth.getTime()) / (365.25 * 24 * 60 * 60 * 1000)
+  )
+  const gradeInfo = GRADE_LEVELS[data.grade_level as GradeLevel]
+
+  if (age > gradeInfo.maxAge) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
       message: `Child is too old for ${gradeInfo.label} (maximum age: ${gradeInfo.maxAge} years). Please verify the date of birth or select a different grade level.`,
       path: ['date_of_birth'],
-    }
+    })
   }
-)
+})
 
 // Step 3: Emergency Contacts Schema
 export const emergencyContactSchema = z.object({

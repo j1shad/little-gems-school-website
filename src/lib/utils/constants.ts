@@ -1,6 +1,12 @@
 export const APP_NAME = "Little Gems School"
 export const APP_DESCRIPTION = "The official website for Little Gems School. Featuring curriculum details, admissions, school news and more."
 
+export const SITE_CONFIG = {
+  name: APP_NAME,
+  description: APP_DESCRIPTION,
+  domain: "littlegemsschool.edu.gh",
+} as const
+
 export const CONTACT_EMAIL = "info@littlegemsschool.edu" // Update with real email
 export const CONTACT_PHONE = "+233 XXX XXX XXX" // Update with real phone
 

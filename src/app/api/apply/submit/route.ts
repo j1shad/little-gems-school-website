@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
           getAll() {
             return cookieStore.getAll()
           },
-          setAll(cookiesToSet) {
+          setAll(cookiesToSet: { name: string; value: string; options?: any }[]) {
             cookiesToSet.forEach(({ name, value, options }) => {
               cookieStore.set(name, value, options)
             })
@@ -40,31 +40,34 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const validatedData = applicationFormSchema.parse(body) as ApplicationFormData
 
+    // Verify payload type
+    const applicationData: Database['public']['Tables']['applications']['Insert'] = {
+      parent_id: user.id,
+      parent_full_name: validatedData.parent_full_name,
+      parent_email: validatedData.parent_email,
+      parent_phone: validatedData.parent_phone,
+      parent_phone_alt: validatedData.parent_phone_alt || null,
+      parent_address: validatedData.parent_address,
+      parent_city: validatedData.parent_city,
+      parent_region: validatedData.parent_region,
+      parent_occupation: validatedData.parent_occupation,
+      parent_employer: validatedData.parent_employer || null,
+      parent2_full_name: validatedData.second_parent_full_name || null,
+      parent2_email: validatedData.second_parent_email || null,
+      parent2_phone: validatedData.second_parent_phone || null,
+      parent2_relationship: validatedData.second_parent_relationship || null,
+      parent2_occupation: validatedData.second_parent_occupation || null,
+      emergency_contacts: validatedData.emergency_contacts,
+      status: 'pending',
+      submitted_at: new Date().toISOString(),
+    }
+
     // Insert application
     const { data: application, error: applicationError } = await supabase
       .from('applications')
-      .insert({
-        user_id: user.id,
-        parent_full_name: validatedData.parent_full_name,
-        parent_email: validatedData.parent_email,
-        parent_phone: validatedData.parent_phone,
-        parent_phone_alt: validatedData.parent_phone_alt || null,
-        parent_address: validatedData.parent_address,
-        parent_city: validatedData.parent_city,
-        parent_region: validatedData.parent_region,
-        parent_occupation: validatedData.parent_occupation,
-        parent_employer: validatedData.parent_employer || null,
-        second_parent_full_name: validatedData.second_parent_full_name || null,
-        second_parent_email: validatedData.second_parent_email || null,
-        second_parent_phone: validatedData.second_parent_phone || null,
-        second_parent_relationship: validatedData.second_parent_relationship || null,
-        second_parent_occupation: validatedData.second_parent_occupation || null,
-        emergency_contacts: validatedData.emergency_contacts,
-        status: 'pending',
-        submitted_at: new Date().toISOString(),
-      })
+      .insert(applicationData as any)
       .select('id, reference_number')
-      .single()
+      .single() as any
 
     if (applicationError || !application) {
       console.error('Error inserting application:', applicationError)
@@ -120,7 +123,7 @@ export async function POST(request: NextRequest) {
 
     const { error: childrenError } = await supabase
       .from('application_children')
-      .insert(childrenData)
+      .insert(childrenData as any)
 
     if (childrenError) {
       console.error('Error inserting children:', childrenError)

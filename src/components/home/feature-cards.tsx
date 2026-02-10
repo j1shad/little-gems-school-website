@@ -78,14 +78,14 @@ export function FeatureCards() {
                 <Link href={feature.href} className="block h-full">
                   <Card className="h-full group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer border-2 border-neutral-100 hover:border-primary/40">
                     <CardContent className={`p-8 ${colors.bg} ${colors.hover} transition-colors h-full flex flex-col`}>
-                      {/* Icon with Hover Rotation */}
+                      {/* Icon with Hover Scale */}
                       <motion.div
-                        whileHover={{ rotate: 360 }}
-                        transition={{ duration: 0.4 }}
+                        whileHover={{ scale: 1.1 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
                         className="mb-6"
                       >
-                        <div className="inline-flex p-4 rounded-2xl bg-gradient-to-br from-primary/10 to-secondary/10">
-                          <Icon className={`h-10 w-10 ${colors.icon}`} />
+                        <div className="inline-flex p-5 rounded-3xl bg-gradient-to-br from-primary/10 to-secondary/10 group-hover:from-primary/20 group-hover:to-secondary/20 transition-colors duration-300">
+                          <Icon className={`h-12 w-12 ${colors.icon}`} />
                         </div>
                       </motion.div>
 

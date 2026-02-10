@@ -7,8 +7,20 @@ export const SITE_CONFIG = {
   name: "Little Gems School",
   tagline: "Shaping Future Leaders",
   description:
-    "Providing quality education for holistic child development in Accra, Ghana. Nurturing young minds to reach their full potential.",
-  url: "https://littlegemsschool.com",
+    "Welcome to Little Gems Schools, where we nurture the minds and hearts of future leaders. Dedicated to providing a holistic education that combines academic excellence with a deep appreciation for cultural diversity.",
+
+  mission: "We utilize the most innovative and creative approach in our child development training, adhering to values of providing a home environment, ensuring equal opportunities, offering outstanding service, and preparing children for academic excellence.",
+
+  vision: "To be the ultimate educational institution in the child development sector, with a focus on offering expectational training to every child in our care.",
+
+  values: [
+    "Helping to tap the child's God-given potential.",
+    "Guiding the child through purposeful activity aimed at developing basic skills.",
+    "Properly grooming and equipping each child with necessary skills.",
+    "Assisting the child to perform constructive, valuable, and useful acts.",
+    "Offering excellent training and direction for self-perfection.",
+    "Positively developing the interest of the child in creative skills."
+  ],
 
   // Contact Information
   contact: {

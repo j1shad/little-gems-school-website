@@ -30,7 +30,7 @@ export function ApplicationWizard() {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const methods = useForm<ApplicationFormData>({
-    resolver: zodResolver(applicationFormSchema),
+    resolver: zodResolver(applicationFormSchema) as any,
     mode: 'onChange',
     defaultValues: {
       parent_full_name: '',
@@ -46,7 +46,7 @@ export function ApplicationWizard() {
       second_parent_full_name: '',
       second_parent_email: '',
       second_parent_phone: '',
-      second_parent_relationship: '',
+      second_parent_relationship: undefined,
       second_parent_occupation: '',
       children: [
         {

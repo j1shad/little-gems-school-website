@@ -9,12 +9,13 @@ import { ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { heroImageVariant, heroTextVariant, buttonStagger } from "@/lib/animations/variants"
 import { SITE_CONFIG } from "@/lib/constants/site-config"
+import { FloatingParticles } from "@/components/home/3d/floating-particles"
 
 const heroImages = [
-  "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop", // Students in classroom
-  "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=80&w=2070&auto=format&fit=crop", // Happy students
-  "https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=2032&auto=format&fit=crop", // Outdoor activities
-  "https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=2072&auto=format&fit=crop", // School building/facilities
+  "/lgpa/imgs/miscellaneous/5.jpg", // Students learning
+  "/lgpa/imgs/culture_day/1.jpg",   // Cultural celebration
+  "/lgpa/imgs/miscellaneous/2.jpg", // Learning moments
+  "/lgpa/imgs/excursions/1.jpg",    // Excursions
 ]
 
 export function HeroSection() {
@@ -55,7 +56,10 @@ export function HeroSection() {
         </AnimatePresence>
 
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-neutral-900/40 via-neutral-900/50 to-neutral-900/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-neutral-900/60 via-neutral-900/60 to-neutral-900/80" />
+
+        {/* 3D Particles */}
+        <FloatingParticles />
       </div>
 
       {/* Hero Content */}
@@ -98,7 +102,11 @@ export function HeroSection() {
             }}
           >
             <motion.div variants={buttonStagger} custom={0} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
-              <Button asChild size="lg" className="text-base md:text-lg px-8 py-6 shadow-2xl transition-transform">
+              <Button
+                asChild
+                size="lg"
+                className="text-base md:text-lg px-8 py-6 bg-primary hover:bg-primary/90 text-white border-primary transition-transform shadow-xl hover:shadow-2xl"
+              >
                 <Link href="/apply">Apply Now</Link>
               </Button>
             </motion.div>
@@ -107,7 +115,7 @@ export function HeroSection() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="text-base md:text-lg px-8 py-6 bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20 transition-transform shadow-2xl"
+                className="text-base md:text-lg px-8 py-6 bg-white text-primary border-white hover:bg-neutral-100 transition-transform shadow-xl hover:shadow-2xl"
               >
                 <Link href="/contact">Schedule Tour</Link>
               </Button>
@@ -144,11 +152,10 @@ export function HeroSection() {
             onClick={() => setCurrentImageIndex(index)}
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.9 }}
-            className={`h-2 rounded-full transition-all duration-300 ${
-              index === currentImageIndex
-                ? "w-8 bg-primary"
-                : "w-2 bg-white/50 hover:bg-white/70"
-            }`}
+            className={`h-2 rounded-full transition-all duration-300 ${index === currentImageIndex
+              ? "w-8 bg-primary"
+              : "w-2 bg-white/50 hover:bg-white/70"
+              }`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
